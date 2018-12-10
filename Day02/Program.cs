@@ -8,29 +8,48 @@ namespace Day01
     {
         static void Main(string[] args)
         {
+            var inputs = File.ReadAllLines(Path.Combine(Directory.GetCurrentDirectory(), "Input.txt"));
+            Part1(inputs);
+            Part2(inputs);
+            Console.ReadLine();
+        }
+
+        private static void Part1(string[] inputs)
+        {
             var countTwo = 0;
             var countThree = 0;
 
-            var inputs = File.ReadAllLines(Path.Combine(Directory.GetCurrentDirectory(), "Input.txt"));
-            foreach(var input in inputs)
+            foreach (var input in inputs)
             {
                 var occurrences = input
-                    .Where(char.IsLetter)
                     .GroupBy(c => c)
-                    .Select(c => new { Letter = c.Key, Count = c.Count() });
+                    .Select(c => c.Count());
 
-                if (occurrences.Any(l => l.Count == 2))
+                if (occurrences.Any(c => c == 2))
                 {
-                    countTwo++;                    
+                    countTwo++;
                 }
-                if (occurrences.Any(l => l.Count == 3))
+
+                if (occurrences.Any(c => c == 3))
                 {
                     countThree++;
                 }
             }
 
             Console.WriteLine($"Matching two ({countTwo}) multiplied with matching three ({countThree}): {countTwo * countThree}");
-            Console.ReadLine();
+        }
+
+        private static void Part2(string[] inputs)
+        {
+            foreach(var input in inputs)
+            {
+                var differentStrings = inputs.Where(i => i.Zip(input, (c1, c2) => c1 != c2).Count(c => c) == 1);
+                if (differentStrings.Count() > 0)
+                {
+                    Console.WriteLine(input.Replace(input.Except(differentStrings.FirstOrDefault()).FirstOrDefault().ToString(), string.Empty));
+                    break;
+                }
+            }
         }
     }
 }
