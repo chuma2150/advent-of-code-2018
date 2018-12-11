@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace Day04
 {
@@ -16,7 +13,8 @@ namespace Day04
         static void Main(string[] args)
         {
             var inputs = File.ReadAllLines(Path.Combine(Directory.GetCurrentDirectory(), "Input.txt"))
-                .Select(i => {
+                .Select(i =>
+                {
                     var splittetInput = i.Split("] ");
                     return new
                     {
@@ -59,7 +57,8 @@ namespace Day04
                         if (!sleepMinutesByGuard[guardId].TryAdd(m, 1))
                         {
                             var newSleepMinutes = sleepMinutesByGuard[guardId][m]++;
-                            if (newSleepMinutes > maxSleepMinutes) {
+                            if (newSleepMinutes > maxSleepMinutes)
+                            {
                                 maxSleepMinutes = newSleepMinutes;
                                 MaxMinuteGuardId = guardId;
                             }
@@ -71,7 +70,7 @@ namespace Day04
         }
 
         private static void Part1_PrintMostAsleepGuard(Dictionary<int, Dictionary<int, int>> sleepMinutesByGuard)
-        {           
+        {
             var guardIdMaxAsleep = sleepMinutesByGuard
                 .OrderBy(g => g.Value.Sum(s => s.Value))
                 .LastOrDefault().Key;
