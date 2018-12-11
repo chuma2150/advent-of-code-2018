@@ -13,38 +13,69 @@ namespace Day03
         {
             var inputs = File.ReadAllLines(Path.Combine(Directory.GetCurrentDirectory(), "Input.txt"))
                 .Select(i => {
-                    var splittetInput = Regex.Split(i, @"\#[^\s]+ \@ ([0-9]+)\,([0-9]+)\: ([0-9]+)x([0-9]+)");
+                    var splittetInput = Regex.Split(i, @"\#([0-9]+) \@ ([0-9]+)\,([0-9]+)\: ([0-9]+)x([0-9]+)");
                     return new
                     {
-                        Left = int.Parse(splittetInput[1]),
-                        Top = int.Parse(splittetInput[2]),
-                        Width = int.Parse(splittetInput[3]),
-                        Height = int.Parse(splittetInput[4])
+                        Id = int.Parse(splittetInput[1]),
+                        Left = int.Parse(splittetInput[2]),
+                        Top = int.Parse(splittetInput[3]),
+                        Width = int.Parse(splittetInput[4]),
+                        Height = int.Parse(splittetInput[5])
                     };
                 });
-            Part1_PrintOverlappingSquareInches(inputs);
+            var points = new Dictionary<Point, int>();
+            Part1_PrintOverlappingSquareInches(inputs, points);
+            Part2_GetValidClaim(inputs, points);
             Console.ReadLine();
         }
 
-        private static void Part1_PrintOverlappingSquareInches(IEnumerable<dynamic> inputs)
+        private static void Part1_PrintOverlappingSquareInches(IEnumerable<dynamic> inputs, Dictionary<Point, int> points)
         {
-            var points = new Dictionary<Point, int>();
             foreach(var claim in inputs)
             {
-                for (var y = claim.Top; y < claim.Top + claim.Height; y++)
+                foreach (var point in GetPoints(claim))
                 {
-                    for (var x = claim.Left; x < claim.Left + claim.Width; x++)
+                    if (!points.TryAdd(point, 1))
                     {
-                        var point = new Point(x, y);
-                        if (!points.TryAdd(point, 1))
-                        {
-                            points[point]++;
-                        }
+                        points[point]++;
                     }
                 }
             }
-
             Console.WriteLine($"Duplicated Inches: {points.Where(p => p.Value > 1).Count()}");
+        }
+
+        private static void Part2_GetValidClaim(IEnumerable<dynamic> inputs, Dictionary<Point, int> points)
+        {
+            foreach (var claim in inputs)
+            {
+                if (!HasOverlapps())
+                {
+                    Console.WriteLine($"Valid ClaimId: {claim.Id}");
+                    break;
+                }
+                bool HasOverlapps()
+                {
+                    foreach (var point in GetPoints(claim))
+                    {
+                        if (points[point] > 1)
+                        {
+                            return true;
+                        }
+                    }
+                    return false;
+                };
+            }
+        }
+
+        private static IEnumerable<Point> GetPoints(dynamic claim)
+        {
+            for (var y = claim.Top; y < claim.Top + claim.Height; y++)
+            {
+                for (var x = claim.Left; x < claim.Left + claim.Width; x++)
+                {
+                    yield return new Point(x, y);
+                }
+            }
         }
     }
 }
