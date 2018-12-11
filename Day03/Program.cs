@@ -25,7 +25,7 @@ namespace Day03
                 });
             var points = new Dictionary<Point, int>();
             Part1_PrintOverlappingSquareInches(inputs, points);
-            Part2_GetValidClaim(inputs, points);
+            Part2_PrintValidClaim(inputs, points);
             Console.ReadLine();
         }
 
@@ -44,7 +44,7 @@ namespace Day03
             Console.WriteLine($"Duplicated Inches: {points.Where(p => p.Value > 1).Count()}");
         }
 
-        private static void Part2_GetValidClaim(IEnumerable<dynamic> inputs, Dictionary<Point, int> points)
+        private static void Part2_PrintValidClaim(IEnumerable<dynamic> inputs, Dictionary<Point, int> points)
         {
             foreach (var claim in inputs)
             {
