@@ -9,12 +9,12 @@ namespace Day01
         static void Main(string[] args)
         {
             var inputs = File.ReadAllLines(Path.Combine(Directory.GetCurrentDirectory(), "Input.txt"));
-            Part1(inputs);
-            Part2(inputs);
+            Part1_PrintIdsCheckSum(inputs);
+            Part2_PrintMergedClosestIds(inputs);
             Console.ReadLine();
         }
 
-        private static void Part1(string[] inputs)
+        private static void Part1_PrintIdsCheckSum(string[] inputs)
         {
             var countTwo = 0;
             var countThree = 0;
@@ -39,7 +39,7 @@ namespace Day01
             Console.WriteLine($"Matching two ({countTwo}) multiplied with matching three ({countThree}): {countTwo * countThree}");
         }
 
-        private static void Part2(string[] inputs)
+        private static void Part2_PrintMergedClosestIds(string[] inputs)
         {
             foreach(var input in inputs)
             {

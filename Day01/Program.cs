@@ -9,25 +9,24 @@ namespace Day01
     {
         static void Main(string[] args)
         {
-            var inputs = File.ReadAllLines(Path.Combine(Directory.GetCurrentDirectory(), "Input.txt"));
-            Part1(inputs);
-            Part2(inputs);
+            var inputs = File.ReadAllLines(Path.Combine(Directory.GetCurrentDirectory(), "Input.txt")).Select(i => long.Parse(i));
+            Part1_PrintEndFrequency(inputs);
+            Part2_PrintFirstRepeatedFrequency(inputs);
             Console.ReadLine();
         }
 
-        private static void Part1(string[] inputs) => Console.WriteLine($"Frequency: {inputs.Sum(i => long.Parse(i))}");
+        private static void Part1_PrintEndFrequency(IEnumerable<long> inputs) => Console.WriteLine($"Frequency: {inputs.Sum()}");
 
-        private static void Part2(string[] inputs)
+        private static void Part2_PrintFirstRepeatedFrequency(IEnumerable<long> inputs)
         {
             long? duplicatedFrequency = null;
             var frequency = 0L;
             var frequencies = new List<long>();
             while (duplicatedFrequency == null)
             {
-                foreach (var input in inputs)
+                foreach (var frequencyDrift in inputs)
                 {
                     frequencies.Add(frequency);
-                    long.TryParse(input, out var frequencyDrift);
                     frequency += frequencyDrift;
                     if (duplicatedFrequency == null && frequencies.Contains(frequency))
                     {
