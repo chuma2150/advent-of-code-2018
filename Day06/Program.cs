@@ -9,6 +9,7 @@ namespace Day06
     class Program
     {
         const int GraphSize = 360;
+        static int SafeArea = 0;
 
         static void Main(string[] args)
         {
@@ -18,27 +19,14 @@ namespace Day06
                     var splittetInput = i.Split(", ");
                     return new Point(int.Parse(splittetInput[0]), int.Parse(splittetInput[1]));
                 });
-            Part1_PrintLargestFiniteAreaSize(inputs);
+            var distancesFromPointToCoordinates = GetCalculatedDistances(inputs);
+            Part1_PrintLargestFiniteAreaSize(distancesFromPointToCoordinates);
+            Part2_PrintSizeOfSafeArea(distancesFromPointToCoordinates);
             Console.ReadLine();
         }
 
-        private static void Part1_PrintLargestFiniteAreaSize(IEnumerable<Point> inputs)
+        private static void Part1_PrintLargestFiniteAreaSize(Dictionary<Point, Dictionary<Point, int>> distancesFromPointToCoordinates)
         {
-            var distancesFromPointToCoordinates = new Dictionary<Point, Dictionary<Point, int>>();
-            for (var x = 0; x <= GraphSize; x++)
-            {
-                for (var y  = 0; y <= GraphSize; y++)
-                {
-                    var point = new Point(x, y);
-                    distancesFromPointToCoordinates.Add(point, new Dictionary<Point, int>());
-                    foreach(var coordinate in inputs)
-                    {
-                        var distance = Math.Abs(point.X - coordinate.X) + Math.Abs(point.Y - coordinate.Y);
-                        distancesFromPointToCoordinates[point].Add(coordinate, distance);
-                    }
-                }
-            }
-
             var closestCoordinateToPoint = new Dictionary<Point, Point>();
             foreach(var point in distancesFromPointToCoordinates)
             {
@@ -59,6 +47,34 @@ namespace Day06
                 .Select(p => p.Value.Count())
                 .LastOrDefault();
             Console.WriteLine($"Size of largest finite area: {finiteCoordinateWithMaxClosestPoints}");
+        }
+
+        private static void Part2_PrintSizeOfSafeArea(Dictionary<Point, Dictionary<Point, int>> distancesFromPointToCoordinates) => Console
+            .WriteLine($"Size of safe area: {SafeArea}");
+
+        private static Dictionary<Point, Dictionary<Point, int>> GetCalculatedDistances(IEnumerable<Point> inputs)
+        {
+            var distancesFromPointToCoordinates = new Dictionary<Point, Dictionary<Point, int>>();
+            for (var x = 0; x <= GraphSize; x++)
+            {
+                for (var y = 0; y <= GraphSize; y++)
+                {
+                    var totalDistance = 0;
+                    var point = new Point(x, y);
+                    distancesFromPointToCoordinates.Add(point, new Dictionary<Point, int>());
+                    foreach (var coordinate in inputs)
+                    {
+                        var distance = Math.Abs(point.X - coordinate.X) + Math.Abs(point.Y - coordinate.Y);
+                        totalDistance += distance;
+                        distancesFromPointToCoordinates[point].Add(coordinate, distance);
+                    }
+                    if (totalDistance < 10000)
+                    {
+                        SafeArea++;
+                    }
+                }
+            }
+            return distancesFromPointToCoordinates;
         }
     }
 }
