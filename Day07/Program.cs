@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -22,6 +20,7 @@ namespace Day07
                     return (char.Parse(splittetInput[1]), char.Parse(splittetInput[2]));
                 });
             Part1_PrintTaskOrder(inputs);
+            Part2_PrintTimeNeededForTasks(inputs);
             Console.ReadLine();
         }
 
@@ -43,6 +42,47 @@ namespace Day07
                 }
             }
             Console.WriteLine($"Taskorder: {taskOrder}");
+        }
+
+        private static void Part2_PrintTimeNeededForTasks(IEnumerable<(char parent, char child)> inputs)
+        {
+            var base64ToTimeDiff = 4;
+            var maxWorkers = 5;
+            var tasks = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            var tasksWithTime = new Dictionary<char, int>();
+            foreach (var task in tasks)
+            {
+                tasksWithTime.Add(task, task - base64ToTimeDiff);
+            }
+            var taskQueue = new List<char>();
+            var taskCompleted = new List<char>();
+            var timeElapsed = 0;
+            while (tasksWithTime.Any(t => t.Value > 0))
+            {
+                for (var i = 0; i < tasks.Length; i++)
+                {
+                    var nextTask = inputs.Where(t => t.child != tasks[i] && !taskCompleted.Contains(t.parent)).ToList();
+                    if (nextTask.Count() == inputs.Where(t => !taskCompleted.Contains(t.parent)).Count())
+                    {
+                        if (!taskQueue.Contains(tasks[i]) && taskQueue.Count() < maxWorkers)
+                        {
+                            taskQueue.Add(tasks[i]);
+                        }
+                    }
+                }
+                timeElapsed++;
+                foreach (var task in taskQueue.ToList())
+                {
+                    tasksWithTime[task]--;
+                    if (tasksWithTime[task] == 0)
+                    {
+                        tasks = tasks.Remove(tasks.IndexOf(task), 1);
+                        taskQueue.Remove(task);
+                        taskCompleted.Add(task);
+                    }
+                }
+            }
+            Console.WriteLine($"Time needed for tasks: {timeElapsed}");
         }
     }
 }
