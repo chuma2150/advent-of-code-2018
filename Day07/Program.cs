@@ -13,7 +13,7 @@ namespace Day07
 
         static void Main(string[] args)
         {
-            var inputs = File.ReadAllLines(Path.Combine(Directory.GetCurrentDirectory(), "Input.txt"))
+            var inputs = File.ReadAllLines("./inputs/Input.txt")
                 .Select(i =>
                 {
                     var splittetInput = Regex.Split(i, @"Step (\w) must be finished before step (\w) can begin.");

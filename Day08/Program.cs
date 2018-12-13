@@ -9,7 +9,7 @@ namespace Day08
     {
         static void Main(string[] args)
         {
-            var inputs = File.ReadAllText("./Input.txt")
+            var inputs = File.ReadAllText("./inputs/Input.txt")
                 .Split()
                 .Select(int.Parse);
 

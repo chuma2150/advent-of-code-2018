@@ -8,7 +8,7 @@ namespace Day01
     {
         static void Main(string[] args)
         {
-            var inputs = File.ReadAllLines(Path.Combine(Directory.GetCurrentDirectory(), "Input.txt"));
+            var inputs = File.ReadAllLines("./inputs/Input.txt");
             Part1_PrintIdsCheckSum(inputs);
             Part2_PrintMergedClosestIds(inputs);
             Console.ReadLine();

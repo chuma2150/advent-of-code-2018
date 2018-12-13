@@ -11,7 +11,7 @@ namespace Day05
 
         static void Main(string[] args)
         {
-            var input = File.ReadAllLines(Path.Combine(Directory.GetCurrentDirectory(), "Input.txt"));
+            var input = File.ReadAllLines("./inputs/Input.txt");
             Part1_PrintReactedPolymer(input[0]);
             Part2_PrintOptimalReactedPolymer(input[0]);
             Console.ReadLine();

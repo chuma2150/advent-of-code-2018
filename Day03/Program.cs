@@ -11,7 +11,7 @@ namespace Day03
     {
         static void Main(string[] args)
         {
-            var inputs = File.ReadAllLines(Path.Combine(Directory.GetCurrentDirectory(), "Input.txt"))
+            var inputs = File.ReadAllLines("./inputs/Input.txt")
                 .Select(i => {
                     var splittetInput = Regex.Split(i, @"\#([0-9]+) \@ ([0-9]+)\,([0-9]+)\: ([0-9]+)x([0-9]+)");
                     return new

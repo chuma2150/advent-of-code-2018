@@ -15,7 +15,7 @@ namespace Day09
 
         static void Main(string[] args)
         {
-            var inputs = File.ReadAllText("./Input.txt").Split();
+            var inputs = File.ReadAllText("./inputs/Input.txt").Split();
             int.TryParse(inputs[0], out numberOfPlayers);
             int.TryParse(inputs[6], out pointsOfLastMarble);
 
