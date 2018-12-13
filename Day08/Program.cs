@@ -10,7 +10,7 @@ namespace Day08
         static void Main(string[] args)
         {
             var inputs = File.ReadAllText("./Input.txt")
-                .Split(" ")
+                .Split()
                 .Select(int.Parse);
 
             var index = 0;
@@ -21,9 +21,9 @@ namespace Day08
             Console.ReadLine();
         }
 
-        private static void Part1_PrintSumOfMetaData(Node rootNode) => Console.WriteLine(rootNode.Sum);
+        private static void Part1_PrintSumOfMetaData(Node rootNode) => Console.WriteLine($"Sum of all meta data: {rootNode.Sum}");
 
-        private static void Part2_PrintValue(Node rootNode) => Console.WriteLine(rootNode.Value);
+        private static void Part2_PrintValue(Node rootNode) => Console.WriteLine($"Value of root node: {rootNode.Value}");
 
         private static Node GetNode(IEnumerable<int> inputs, ref int index)
         {
