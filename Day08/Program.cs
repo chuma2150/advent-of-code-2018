@@ -12,18 +12,20 @@ namespace Day08
             var inputs = File.ReadAllText("./Input.txt")
                 .Split(" ")
                 .Select(int.Parse);
+
             var index = 0;
-            var rootNode = GetNode(inputs.ToList(), ref index);
+            var rootNode = GetNode(inputs, ref index);
+
             Part1_PrintSumOfMetaData(rootNode);
             Part2_PrintValue(rootNode);
             Console.ReadLine();
         }
 
-        private static void Part1_PrintSumOfMetaData(Node rootNode) => Console.WriteLine(rootNode.Sum());
+        private static void Part1_PrintSumOfMetaData(Node rootNode) => Console.WriteLine(rootNode.Sum);
 
-        private static void Part2_PrintValue(Node rootNode) => Console.WriteLine(rootNode.Value());
+        private static void Part2_PrintValue(Node rootNode) => Console.WriteLine(rootNode.Value);
 
-        private static Node GetNode(List<int> inputs, ref int index)
+        private static Node GetNode(IEnumerable<int> inputs, ref int index)
         {
             var node = new Node();
             var children = inputs.ElementAt(index++);
@@ -43,29 +45,32 @@ namespace Day08
 
         private class Node
         {
-            internal List<int> Metadata { get; set; } = new List<int>();
+            internal List<Node> Nodes = new List<Node>();
 
-            internal List<Node> Nodes { get; set; } = new List<Node>();
+            internal List<int> Metadata = new List<int>();
 
-            public int Sum() => Metadata.Sum() + Nodes.Sum(n => n.Sum());
+            internal int Sum => Metadata.Sum() + Nodes.Sum(n => n.Sum);
 
-            public int Value()
+            internal int Value
             {
-                if (!Nodes.Any())
+                get
                 {
-                    return Metadata.Sum();
-                }
-
-                var value = 0;
-                foreach (var metaData in Metadata)
-                {
-                    if (metaData <= Nodes.Count)
+                    if (!Nodes.Any())
                     {
-                        value += Nodes[metaData - 1].Value();
+                        return Metadata.Sum();
                     }
-                }
 
-                return value;
+                    var value = 0;
+                    foreach (var metaData in Metadata)
+                    {
+                        if (metaData <= Nodes.Count)
+                        {
+                            value += Nodes[metaData - 1].Value;
+                        }
+                    }
+
+                    return value;
+                }
             }
         }
     }
