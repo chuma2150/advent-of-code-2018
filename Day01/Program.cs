@@ -9,7 +9,7 @@ namespace Day01
     {
         static void Main(string[] args)
         {
-            var inputs = File.ReadAllLines(Path.Combine(Directory.GetCurrentDirectory(), "Input.txt")).Select(i => long.Parse(i));
+            var inputs = File.ReadAllLines(Path.Combine(Directory.GetCurrentDirectory(), "Input.txt")).Select(long.Parse);
             Part1_PrintEndFrequency(inputs);
             Part2_PrintFirstRepeatedFrequency(inputs);
             Console.ReadLine();
