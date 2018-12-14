@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -44,7 +43,7 @@ namespace Day10
                 minY = previousPoints.Min(p => p.Y);
                 maxX = previousPoints.Max(p => p.X);
                 maxY = previousPoints.Max(p => p.Y);
-                
+
                 foreach (var point in points)
                 {
                     point.X += point.VelocityX;
@@ -54,13 +53,13 @@ namespace Day10
                 newMinX = points.Min(p => p.X);
                 newMinY = points.Min(p => p.Y);
                 newMaxX = points.Max(p => p.X);
-                newMaxY = points.Max(p => p.Y);      
+                newMaxY = points.Max(p => p.Y);
             }
-            for (var i = minY; i <= maxY; i++)
+            for (var y = minY; y <= maxY; y++)
             {
-                for (var j = minX; j <= maxX; j++)
+                for (var x = minX; x <= maxX; x++)
                 {
-                    Console.Write(previousPoints.Any(p => p.Y == i && p.X == j) ? '#' : '.');
+                    Console.Write(previousPoints.Any(p => p.Y == y && p.X == x) ? '#' : '.');
                 }
                 Console.WriteLine();
             }
