@@ -9,55 +9,60 @@ namespace Day11
     {
         const int GridSize = 300;
         const int SquareSize = 3;
+        static readonly Dictionary<(int x, int y, int s), int> SquareSizes = new Dictionary<(int x, int y, int s), int>();
 
         static void Main(string[] args)
         {
             int.TryParse(File.ReadAllText("./inputs/Input.txt"), out var input);
-            Part1_PrintCoordinatesOfFuelCellWithLargestPower(input);
+            CalculateSquareSizes(input);
+            Part1_PrintCoordinatesOfLargstPowerSquare(input);
+            Part2_PrintCoordinatesAndSizeOfLargestPowerSquareAnySize();
             Console.ReadLine();
         }
 
-        private static void Part1_PrintCoordinatesOfFuelCellWithLargestPower(int input)
+        private static void Part1_PrintCoordinatesOfLargstPowerSquare(int input)
         {
-            var powerLevels = new Dictionary<(int x, int y), int>();
-            for(var x = 1; x <= GridSize; x++)
-            {
-                for (var y = 1; y <= GridSize; y++)
-                {
-                    powerLevels.Add((x, y), GetPowerLeveL(x, y, input));
-                }
-            }
-
-            var maxPowerLevelSuqare = 0;
-            var maxPowerLevelSuqareCoordinates = (x: 0, y: 0);
-            for (var x = 1; x <= GridSize - SquareSize; x++)
-            {
-                for (var y = 1; y <= GridSize - SquareSize; y++)
-                {
-                    var powerLevelSquare = GetPowerLevelForSquare(x, y, powerLevels);
-                    if (powerLevelSquare > maxPowerLevelSuqare)
-                    {
-                        maxPowerLevelSuqare = powerLevelSquare;
-                        maxPowerLevelSuqareCoordinates = (x, y);
-                    }
-                }
-            }
-
+            var maxPowerLevelSuqareCoordinates = SquareSizes
+                .Where(s => s.Key.s == SquareSize)
+                .OrderBy(s => s.Value)
+                .LastOrDefault()
+                .Key;
             Console.WriteLine($"Coordinates of highest power cell: {maxPowerLevelSuqareCoordinates.x},{maxPowerLevelSuqareCoordinates.y}");
         }
 
-        private static int GetPowerLevelForSquare(int x, int y, Dictionary<(int x, int y), int> powerLevels)
+        private static void Part2_PrintCoordinatesAndSizeOfLargestPowerSquareAnySize()
         {
-            var powerLevel = 0;
-            for (var sx = x; sx <=  x + SquareSize - 1; sx++)
-            {
-                for (var sy = y; sy <= y + SquareSize - 1; sy++)
-                {
-                    powerLevel += powerLevels[(sx, sy)];
-                }
-            }
-            return powerLevel;
+            var largestPowerSquare = SquareSizes
+                .OrderBy(s => s.Value)
+                .LastOrDefault()
+                .Key;
+            Console.WriteLine($"Coordinates and size of highest power cell: {largestPowerSquare.x},{largestPowerSquare.y},{largestPowerSquare.s}");
         }
+
+        private static void CalculateSquareSizes(int input)
+        {
+            for (var s = 1; s <= GridSize; s++)
+            {
+                for (var x = 1; x <= GridSize; x++)
+                {
+                    if (x + s > GridSize + 1) { break; }
+
+                    for (var y = 1; y <= GridSize; y++)
+                    {
+                        if (y + s > GridSize + 1) { break; }
+
+                        if (s == 1) { SquareSizes.Add((x, y, s), GetPowerLeveL(x, y, input)); }
+                        else
+                        {
+                            var powerLevelSmallerSquare = SquareSizes[(x, y, s - 1)];
+                            for (var sy = y; sy <= y + s - 1; sy++) { powerLevelSmallerSquare += GetPowerLeveL(x + s - 1, sy, input); }
+                            for (var sx = x; sx <= x + s - 2; sx++) { powerLevelSmallerSquare += GetPowerLeveL(sx, y + s - 1, input); }
+                            SquareSizes.Add((x, y, s), powerLevelSmallerSquare);
+                        }
+                    }
+                }
+            }            
+        }        
 
         private static int GetPowerLeveL(int x, int y, int serialNumber)
         {
@@ -65,7 +70,7 @@ namespace Day11
             var powerLevelStart = rackId * y;
             var powerLevel = powerLevelStart += serialNumber;
             powerLevel *= rackId;
-            powerLevel = (powerLevel % 1000) / 100;
+            powerLevel = powerLevel % 1000 / 100;
             return powerLevel - 5;
         }
     }
