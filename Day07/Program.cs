@@ -9,7 +9,7 @@ namespace Day07
 {
     class Program
     {
-        const int TaskListCount = 26;
+        const int TASK_LIST_COUNT = 26;
 
         static void Main(string[] args)
         {
@@ -27,8 +27,8 @@ namespace Day07
         private static void Part1_PrintTaskOrder(IEnumerable<(char parent, char child)> inputs)
         {
             var tasks = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            var taskOrder = new StringBuilder(TaskListCount, TaskListCount);
-            while(taskOrder.Length < TaskListCount)
+            var taskOrder = new StringBuilder(TASK_LIST_COUNT, TASK_LIST_COUNT);
+            while(taskOrder.Length < TASK_LIST_COUNT)
             {
                 for (var i = 0; i < tasks.Length; i++)
                 {

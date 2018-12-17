@@ -8,7 +8,7 @@ namespace Day06
 {
     class Program
     {
-        const int GraphSize = 360;
+        const int GRAPH_SIZE = 360;
         static int SafeArea = 0;
 
         static void Main(string[] args)
@@ -40,7 +40,7 @@ namespace Day06
             var closestFiniteCoordinateToPoint = closestCoordinateToPoint
                 .GroupBy(e => e.Value)
                 .ToDictionary(v => v.Key, v => v.Select(p => p.Key))
-                .Where(e => !e.Value.Any(p => p.X == 0 || p.X == GraphSize || p.Y == 0 || p.Y == GraphSize));
+                .Where(e => !e.Value.Any(p => p.X == 0 || p.X == GRAPH_SIZE || p.Y == 0 || p.Y == GRAPH_SIZE));
 
             var finiteCoordinateWithMaxClosestPoints = closestFiniteCoordinateToPoint
                 .OrderBy(p => p.Value.Count())
@@ -55,9 +55,9 @@ namespace Day06
         private static Dictionary<Point, Dictionary<Point, int>> GetCalculatedDistances(IEnumerable<Point> inputs)
         {
             var distancesFromPointToCoordinates = new Dictionary<Point, Dictionary<Point, int>>();
-            for (var x = 0; x <= GraphSize; x++)
+            for (var x = 0; x <= GRAPH_SIZE; x++)
             {
-                for (var y = 0; y <= GraphSize; y++)
+                for (var y = 0; y <= GRAPH_SIZE; y++)
                 {
                     var totalDistance = 0;
                     var point = new Point(x, y);

@@ -7,7 +7,7 @@ namespace Day04
 {
     class Program
     {
-        const string GuardEventTag = "Guard #";
+        const string GUARD_EVENT_TAG = "Guard #";
         static int MaxMinuteGuardId = 0;
 
         static void Main(string[] args)
@@ -39,9 +39,9 @@ namespace Day04
             foreach (var input in inputs)
             {
                 string eventTag = input.Event;
-                if (eventTag.Contains(GuardEventTag))
+                if (eventTag.Contains(GUARD_EVENT_TAG))
                 {
-                    var splittedEvent = eventTag.Split(GuardEventTag);
+                    var splittedEvent = eventTag.Split(GUARD_EVENT_TAG);
                     int.TryParse(splittedEvent[1].Substring(0, splittedEvent[1].IndexOf(" ")), out guardId);
                     sleepMinutesByGuard.TryAdd(guardId, new Dictionary<int, int>());
                 }

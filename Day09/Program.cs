@@ -7,10 +7,8 @@ namespace Day09
 {
     class Program
     {
-        private const int multiplicator = 100;
-
+        private const int MULTIPLICATOR = 100;
         private static int numberOfPlayers;
-
         private static int pointsOfLastMarble;
 
         static void Main(string[] args)
@@ -27,7 +25,7 @@ namespace Day09
         private static void Part1_PrintWinningScore() => Console.WriteLine($"Score of winning elf: {GetScoreBoard().Max()}");
 
         private static void Part2_PrintWinningScoreMarbleTimes100() => Console.WriteLine(
-            $"Score of winning elf marble times {multiplicator}: {GetScoreBoard(multiplicator).Max()}");
+            $"Score of winning elf marble times {MULTIPLICATOR}: {GetScoreBoard(MULTIPLICATOR).Max()}");
 
         private static long[] GetScoreBoard(int multiplicator = 1)
         {

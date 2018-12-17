@@ -7,7 +7,7 @@ namespace Day05
 {
     class Program
     {
-        const int LetterDifference = 'a' - 'A';
+        const int LETTER_DIFFERENCE = 'a' - 'A';
 
         static void Main(string[] args)
         {
@@ -36,7 +36,7 @@ namespace Day05
             var reactedPolymers = new Stack<char>();
             foreach (var @char in @string)
             {
-                if (reactedPolymers.TryPeek(out var polymer) && Math.Abs(polymer - @char) == LetterDifference)
+                if (reactedPolymers.TryPeek(out var polymer) && Math.Abs(polymer - @char) == LETTER_DIFFERENCE)
                 {
                     reactedPolymers.Pop();
                 }
