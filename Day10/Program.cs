@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace Day10
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -78,12 +78,12 @@ namespace Day10
 
             internal int VelocityY { get; private set; }
 
-            internal VelocityPoint(int X, int Y, int VelocityX, int VelocityY)
+            internal VelocityPoint(int x, int y, int velocityX, int velocityY)
             {
-                this.X = X;
-                this.Y = Y;
-                this.VelocityX = VelocityX;
-                this.VelocityY = VelocityY;
+                X = x;
+                Y = y;
+                VelocityX = velocityX;
+                VelocityY = velocityY;
             }
 
             public object Clone() => new VelocityPoint(X, Y, VelocityX, VelocityY);
