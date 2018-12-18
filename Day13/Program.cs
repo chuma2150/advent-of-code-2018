@@ -21,20 +21,21 @@ namespace Day13
         };
         private static readonly List<InterSection> intersections = new List<InterSection>();
         private static readonly List<Curve> curves = new List<Curve>();
-        private static readonly List<Cart> carts = new List<Cart>();
+        private static List<Cart> carts = new List<Cart>();
 
         static void Main(string[] args)
         {
             var inputs = File.ReadAllLines("./inputs/Input.txt");
             CreateCartAndTrackSystem(inputs);
             Part1_PrintLocationOfFirstCollition();
+            Part2_PrintLocationOfLastCart();
             Console.ReadLine();
         }
 
         private static void Part1_PrintLocationOfFirstCollition()
         {
-            var crashed = false;
-            while (!crashed)
+            var logCrash = true;
+            while (carts.Count() > 1)
             {
                 foreach (var cart in carts.OrderBy(c => c.Y).OrderBy(c => c.X).ToList()) {
                     cart.Move();
@@ -45,13 +46,19 @@ namespace Day13
                         .Where(c => c.Value > 1);
                     if (crashedPositions.Any())
                     {
-                        Console.WriteLine($"First crash occured at: {crashedPositions.First().Key.X},{crashedPositions.First().Key.Y}");
-                        crashed = true;
-                        break;
+                        var location = crashedPositions.First().Key;
+                        if (logCrash)
+                        {
+                            Console.WriteLine($"First crash occured at: {location.X},{location.Y}");
+                            logCrash = false;
+                        }
+                        carts = carts.Where(c => c.X != location.X || c.Y != location.Y).ToList();
                     }
                 }
             }
         }
+
+        private static void Part2_PrintLocationOfLastCart() => Console.WriteLine($"Last cart at: {carts[0].X},{carts[0].Y}");
 
         private static void CreateCartAndTrackSystem(string[] inputs)
         {
