@@ -46,13 +46,13 @@ namespace Day13
                         .Where(c => c.Value > 1);
                     if (crashedPositions.Any())
                     {
-                        var location = crashedPositions.First().Key;
+                        var (X, Y) = crashedPositions.First().Key;
                         if (logCrash)
                         {
-                            Console.WriteLine($"First crash occured at: {location.X},{location.Y}");
+                            Console.WriteLine($"First crash occured at: {X},{Y}");
                             logCrash = false;
                         }
-                        carts = carts.Where(c => c.X != location.X || c.Y != location.Y).ToList();
+                        carts = carts.Where(c => c.X != X || c.Y != Y).ToList();
                     }
                 }
             }
